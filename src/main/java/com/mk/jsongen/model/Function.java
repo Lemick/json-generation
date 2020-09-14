@@ -14,6 +14,7 @@ public class Function {
 
     private String functionName;
     private List<String> args;
+    private String body;
 
     @Override
     public boolean equals(Object o) {
@@ -21,11 +22,12 @@ public class Function {
         if (o == null || getClass() != o.getClass()) return false;
         Function function = (Function) o;
         return Objects.equals(functionName, function.functionName) &&
-                Objects.equals(args, function.args);
+                Objects.equals(args, function.args) &&
+                Objects.equals(body, function.body);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(functionName, args);
+        return Objects.hash(functionName, args, body);
     }
 }

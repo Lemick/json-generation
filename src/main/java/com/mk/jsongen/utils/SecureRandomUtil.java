@@ -3,10 +3,11 @@ package com.mk.jsongen.utils;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Random;
 
 public class SecureRandomUtil {
 
-    public static SecureRandom secureRandom = new SecureRandom();
+    public static Random secureRandom = new SecureRandom();
 
     public static <T> T randomElem(List<T> c) {
         return c.get(randomInt(c.size() - 1));

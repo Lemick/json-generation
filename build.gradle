@@ -25,10 +25,15 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 
-	}
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
+	compile group: 'org.graalvm.sdk', name: 'graal-sdk', version: '20.2.0'
+	compile group: 'org.graalvm.js', name: 'js', version: '20.2.0'
+	compile group: 'org.graalvm.js', name: 'js-scriptengine', version: '20.2.0'
+	compile group: 'org.graalvm.tools', name: 'profiler', version: '20.2.0'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 test {

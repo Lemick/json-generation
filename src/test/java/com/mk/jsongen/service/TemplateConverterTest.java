@@ -3,10 +3,14 @@ package com.mk.jsongen.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mk.jsongen.generator.IntGenerator;
+import com.mk.jsongen.generator.contract.IGenerator;
+import com.mk.jsongen.model.Function;
 import com.mk.jsongen.utils.SecureRandomUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
@@ -17,8 +21,9 @@ import java.util.stream.IntStream;
 
 import static com.fasterxml.jackson.databind.node.JsonNodeFactory.instance;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TemplateConverterTest {
@@ -75,6 +80,17 @@ public class TemplateConverterTest {
     public void parseValue_boolean() {
         Object actual = model.parseValue(instance.booleanNode(true));
         assertEquals(instance.booleanNode(true), actual);
+    }
+
+    @Test
+    public void parseValue_preserve_curly_brackets() {
+        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+        model.generatorFactory = mock(GeneratorFactory.class);
+        when(model.generatorFactory.create(any())).thenReturn(() -> "");
+
+        model.parseValue(instance.textNode("{{function() {}}}"));
+        verify(functionExtractor).extract(argument.capture());
+        assertEquals("curly brackets of function must be preserved", "function() {}", argument.getValue());
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 @Service
 public class TemplateConverter {
 
-    public static final Pattern pattern = Pattern.compile("\\{\\{(.*?)}}");
+    public static final Pattern pattern = Pattern.compile("\\{{2}(.*?}?)\\}{2}");
 
     @Autowired
     GeneratorFactory generatorFactory;

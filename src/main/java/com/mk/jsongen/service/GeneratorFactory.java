@@ -14,14 +14,17 @@ import static java.time.Instant.*;
 @Service
 public class GeneratorFactory {
 
-    public static final String FUNCTION_LAST_NAME = "lastname";
-    public static final String FUNCTION_FIRST_NAME = "firstname";
-    public static final String FUNCTION_EMAIL = "email";
+    final DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
+
+    public static final String FUNCTION_LAST_NAME = "randlastname";
+    public static final String FUNCTION_FIRST_NAME = "randfirstname";
+    public static final String FUNCTION_EMAIL = "randemail";
     public static final String FUNCTION_INT = "randint";
     public static final String FUNCTION_BOOL = "randbool";
     public static final String FUNCTION_DATE = "randdate";
+    public static final String FUNCTION_PHONE = "randphone";
+    public static final String FUNCTION_JAVASCRIPT = "function";
 
-    final DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
 
     public IGenerator create(Function function) {
         List<String> args = function.getArgs();
@@ -42,6 +45,10 @@ public class GeneratorFactory {
                 Instant minDate = args.size() >= 1 ? from(formatter.parse(args.get(0))) : MIN;
                 Instant maxDate = args.size() >= 2 ? from(formatter.parse(args.get(1))) : now();
                 return DateGenerator.builder().min(minDate).max(maxDate).build();
+            case FUNCTION_PHONE:
+                return PhoneGenerator.builder().build();
+            case FUNCTION_JAVASCRIPT:
+                return JavascriptEvalGenerator.builder().body(function.getBody()).build();
             default:
                 throw new IllegalArgumentException("No generated found for function name " + function.getFunctionName());
         }

@@ -11,6 +11,6 @@ public class BoolGenerator implements IGenerator {
 
     @Override
     public Object generate() {
-        return String.valueOf(SecureRandomUtil.randomBoolean());
+        return SecureRandomUtil.randomBoolean();
     }
 }
