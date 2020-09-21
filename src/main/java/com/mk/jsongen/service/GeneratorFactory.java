@@ -24,7 +24,7 @@ public class GeneratorFactory {
     public static final String FUNCTION_DATE = "randdate";
     public static final String FUNCTION_PHONE = "randphone";
     public static final String FUNCTION_JAVASCRIPT = "function";
-
+    public static final String FUNCTION_ENUM = "randenum";
 
     public IGenerator create(Function function) {
         List<String> args = function.getArgs();
@@ -49,6 +49,8 @@ public class GeneratorFactory {
                 return PhoneGenerator.builder().build();
             case FUNCTION_JAVASCRIPT:
                 return JavascriptEvalGenerator.builder().body(function.getBody()).build();
+            case FUNCTION_ENUM:
+                return EnumGenerator.builder().values(args).build();
             default:
                 throw new IllegalArgumentException("No generated found for function name " + function.getFunctionName());
         }
