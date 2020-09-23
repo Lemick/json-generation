@@ -1,11 +1,6 @@
 package com.mk.jsongen.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.mk.jsongen.generator.IntGenerator;
-import com.mk.jsongen.generator.contract.IGenerator;
-import com.mk.jsongen.model.Function;
 import com.mk.jsongen.utils.SecureRandomUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,10 +21,10 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TemplateConverterTest {
+public class TemplateParserTest {
 
     @InjectMocks
-    TemplateConverter model;
+    TemplateParser model;
 
     @Spy
     GeneratorFactory factory;
@@ -63,10 +58,10 @@ public class TemplateConverterTest {
     }
 
     @Test
-    public void parseValue_withSpaces() {
+    public void parseValue_casted_withSpaces() {
         when(mockRandomizer.ints(anyInt(), anyInt())).thenAnswer(invocation -> IntStream.of(2));
         Object actual = model.parseValue(instance.textNode("{{  randInt(1)  }}"));
-        assertEquals(instance.numberNode(2), actual);
+        assertEquals("parsed value is casted, spaces are ignored", instance.numberNode(2), actual);
     }
 
     @Test
@@ -93,4 +88,10 @@ public class TemplateConverterTest {
         assertEquals("curly brackets of function must be preserved", "function() {}", argument.getValue());
     }
 
+    @Test
+    public void parseValue_cannot_cast_to_boolean() {
+        when(mockRandomizer.ints(anyInt(), anyInt())).thenAnswer(invocation -> IntStream.of(1));
+        Object actual = model.parseValue(instance.textNode("ma valeur est {{randBool()}}"));
+        assertEquals("result is not casted in boolean", instance.textNode("ma valeur est true"), actual);
+    }
 }

@@ -19,7 +19,7 @@ public class JsonTemplateGeneratorTest {
     JsonTemplateGenerator model;
 
     @Spy
-    TemplateConverter templateConverter;
+    TemplateParser templateParser;
 
     ObjectMapper om = new ObjectMapper();
 

@@ -2,7 +2,7 @@ package com.mk.jsongen.service;
 
 import com.mk.jsongen.generator.*;
 import com.mk.jsongen.generator.contract.IGenerator;
-import com.mk.jsongen.model.Function;
+import com.mk.jsongen.model.pojo.Function;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -25,6 +25,7 @@ public class GeneratorFactory {
     public static final String FUNCTION_PHONE = "randphone";
     public static final String FUNCTION_JAVASCRIPT = "function";
     public static final String FUNCTION_ENUM = "randenum";
+    public static final String FUNCTION_NOW = "now";
 
     public IGenerator create(Function function) {
         List<String> args = function.getArgs();
@@ -51,6 +52,8 @@ public class GeneratorFactory {
                 return JavascriptEvalGenerator.builder().body(function.getBody()).build();
             case FUNCTION_ENUM:
                 return EnumGenerator.builder().values(args).build();
+            case FUNCTION_NOW:
+                return CurrentInstantGenerator.builder().build();
             default:
                 throw new IllegalArgumentException("No generated found for function name " + function.getFunctionName());
         }

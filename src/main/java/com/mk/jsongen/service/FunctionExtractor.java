@@ -1,6 +1,6 @@
 package com.mk.jsongen.service;
 
-import com.mk.jsongen.model.Function;
+import com.mk.jsongen.model.pojo.Function;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

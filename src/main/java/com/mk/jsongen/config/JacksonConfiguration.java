@@ -1,4 +1,4 @@
-package com.mk.jsongen;
+package com.mk.jsongen.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;

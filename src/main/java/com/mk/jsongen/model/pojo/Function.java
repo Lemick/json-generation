@@ -1,4 +1,4 @@
-package com.mk.jsongen.model;
+package com.mk.jsongen.model.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

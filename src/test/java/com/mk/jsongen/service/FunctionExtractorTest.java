@@ -1,7 +1,6 @@
 package com.mk.jsongen.service;
 
-import com.mk.jsongen.model.Function;
-import com.mk.jsongen.service.FunctionExtractor;
+import com.mk.jsongen.model.pojo.Function;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
