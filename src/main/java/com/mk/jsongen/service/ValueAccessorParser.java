@@ -8,14 +8,10 @@ import com.mk.jsongen.model.pojo.accessor.DynamicValueAccessor;
 import com.mk.jsongen.model.pojo.accessor.IValueAccessor;
 import com.mk.jsongen.model.pojo.accessor.StaticValueAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.EvaluationContext;
-import org.springframework.expression.Expression;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,8 +29,6 @@ public class ValueAccessorParser {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Autowired
-    SpelParserService spelParserService;
 
 
     public IValueAccessor generateContext(ValueNode valueNode) {
@@ -53,29 +47,27 @@ public class ValueAccessorParser {
 
     private DynamicValueAccessor buildDynamicValueAccessor(ValueNode valueNode) {
         String templateExpression = valueNode.asText();
-        EvaluationContext evaluationContext = buildEvaluationContext(templateExpression);
-        Expression parsedExpression = buildSpelExpression(templateExpression);
+        List<IGenerator> generators = buildGenerators(templateExpression);
+        String dynamicExpression = buildDynamicExpression(templateExpression);
         return DynamicValueAccessor.builder()
-                .evaluationContext(evaluationContext)
-                .expression(parsedExpression)
+                .generators(generators)
+                .expression(dynamicExpression)
                 .build();
     }
 
-    private EvaluationContext buildEvaluationContext(String templateExpression) {
+    private List<IGenerator> buildGenerators(String templateExpression) {
         List<IGenerator> generators = new ArrayList<>();
         Matcher matcher = pattern.matcher(templateExpression);
         while (matcher.find()) {
             Function parsedFunction = functionExtractor.extract(matcher.group(1));
             generators.add(generatorFactory.create(parsedFunction));
         }
-        return new StandardEvaluationContext(generators);
+        return generators;
     }
 
-    private Expression buildSpelExpression(String templateExpression) {
+    private String buildDynamicExpression(String templateExpression) {
         Matcher matcher = pattern.matcher(templateExpression);
-        AtomicInteger i = new AtomicInteger();
-        String expression = matcher.replaceAll(m -> String.format("#{get(%d).generate()}", i.getAndIncrement()));
-        return spelParserService.parseExpression(expression);
+        return matcher.replaceAll(m -> "#V#");
     }
 
     private Object extractNotTextualValue(ValueNode valueNode) {

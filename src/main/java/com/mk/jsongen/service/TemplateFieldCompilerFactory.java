@@ -13,8 +13,6 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mk.jsongen.service.TemplateParser.TemplateNodeType.*;
-
 @Service
 public class TemplateFieldCompilerFactory {
 
@@ -28,28 +26,6 @@ public class TemplateFieldCompilerFactory {
 
     @Autowired
     ObjectMapper objectMapper;
-
-    public enum TemplateNodeType {
-        NO_TEMPLATE_VALUE,
-        SINGLE_TEMPLATE,
-        RICH_TEMPLATE
-
-    }
-
-    public TemplateParser.TemplateNodeType getTemplateType(ValueNode valueNode) {
-        if (!valueNode.isTextual()) {
-            return NO_TEMPLATE_VALUE;
-        }
-        Matcher matcher = pattern.matcher(valueNode.asText());
-        long countOccurences = matcher.results().count();
-        if (countOccurences == 0) {
-            return NO_TEMPLATE_VALUE;
-        } else if (countOccurences == 1 && cantItBeStrongTyped(valueNode.asText())) {
-            return SINGLE_TEMPLATE;
-        } else {
-            return RICH_TEMPLATE;
-        }
-    }
 
     public ValueNode parseValue(ValueNode valueNode) {
         if (!valueNode.isTextual()) {

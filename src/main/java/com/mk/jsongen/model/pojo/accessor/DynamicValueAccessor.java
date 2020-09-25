@@ -1,27 +1,31 @@
 package com.mk.jsongen.model.pojo.accessor;
 
+import com.mk.jsongen.generator.contract.IGenerator;
 import lombok.Builder;
 import lombok.Data;
-import org.elasticsearch.client.ml.dataframe.evaluation.Evaluation;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
-import org.springframework.expression.common.TemplateParserContext;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
+
+import java.util.List;
 
 @Data
 public class DynamicValueAccessor implements IValueAccessor {
 
-    private final Expression expression;
-    private final EvaluationContext evaluationContext;
+    private final String expression;
+    private final List<IGenerator> generators;
 
     @Builder
-    public DynamicValueAccessor(Expression expression, EvaluationContext evaluationContext) {
+    public DynamicValueAccessor(String expression, List<IGenerator> generators) {
         this.expression = expression;
-        this.evaluationContext = evaluationContext;
+        this.generators = generators;
     }
 
     @Override
     public Object accessValue() {
-        return expression.getValue(evaluationContext);
+        String generatedExpression = expression;
+        for(IGenerator generator : generators) {
+            generatedExpression = generatedExpression.replaceFirst("#V#", generator.generate().toString());
+        }
+        return generatedExpression;
     }
 }

@@ -1,11 +1,9 @@
 package com.mk.jsongen.model.pojo.accessor;
 
 import com.mk.jsongen.generator.IntGenerator;
-import com.mk.jsongen.service.SpelParserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.common.TemplateParserContext;
