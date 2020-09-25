@@ -8,7 +8,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
-import static com.mk.jsongen.service.ValueAccessorParser.TEMPLATE_VAL_ID;
+import static com.mk.jsongen.service.TemplateParser.TEMPLATE_VAL_ID;
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)

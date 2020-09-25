@@ -1,6 +1,5 @@
 package com.mk.jsongen.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mk.jsongen.generator.contract.IGenerator;
 import com.mk.jsongen.model.pojo.Function;
 import com.mk.jsongen.model.pojo.accessor.DynamicValueAccessor;
@@ -13,22 +12,21 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.expression.Expression;
 
 import java.util.List;
 
 import static com.fasterxml.jackson.databind.node.JsonNodeFactory.instance;
-import static com.mk.jsongen.service.ValueAccessorParser.TEMPLATE_VAL_ID;
+import static com.mk.jsongen.service.TemplateParser.TEMPLATE_VAL_ID;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ValueAccessorParserTest {
+public class TemplateParserTest {
 
     @InjectMocks
-    ValueAccessorParser model;
+    TemplateParser model;
 
     @Mock
     GeneratorFactory generatorFactory;

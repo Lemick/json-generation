@@ -1,6 +1,5 @@
 package com.mk.jsongen.service;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
 import com.mk.jsongen.model.pojo.CompiledNodeField;
@@ -13,13 +12,13 @@ import org.springframework.stereotype.Service;
 public class JsonTemplateGenerator {
 
     @Autowired
-    ValueAccessorParser valueAccessorParser;
+    TemplateParser templateParser;
 
     public CompiledNodeContainer compileTemplate(ObjectNode templateNode) {
         CompiledNodeContainer rootContainer = CompiledNodeContainer.builder().build();
         templateNode.fields().forEachRemaining(entry -> {
             if (entry.getValue().isValueNode()) {
-                IValueAccessor valueAccessor = valueAccessorParser.generateContext((ValueNode) entry.getValue());
+                IValueAccessor valueAccessor = templateParser.generateContext((ValueNode) entry.getValue());
                 CompiledNodeField compiledField = CompiledNodeField.builder().valueAccessor(valueAccessor).build();
                 rootContainer.getChilds().put(entry.getKey(), compiledField);
             } else if (entry.getValue().isObject()) {

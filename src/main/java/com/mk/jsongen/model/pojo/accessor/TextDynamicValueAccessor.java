@@ -1,7 +1,7 @@
 package com.mk.jsongen.model.pojo.accessor;
 
 import com.mk.jsongen.generator.contract.IGenerator;
-import com.mk.jsongen.service.ValueAccessorParser;
+import com.mk.jsongen.service.TemplateParser;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,7 +15,7 @@ public class TextDynamicValueAccessor implements IValueAccessor {
 
     @Builder
     public TextDynamicValueAccessor(String expression, List<IGenerator> generators) {
-        this.tokens = expression.split(ValueAccessorParser.TEMPLATE_VAL_ID, -1);
+        this.tokens = expression.split(TemplateParser.TEMPLATE_VAL_ID, -1);
         this.generators = generators;
     }
 

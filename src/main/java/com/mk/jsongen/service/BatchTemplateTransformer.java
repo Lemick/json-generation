@@ -30,9 +30,9 @@ public class BatchTemplateTransformer {
     }
 
     public List<String> generateSerializedJsonNodes(int size, ObjectNode jsonTemplate) throws JsonProcessingException {
-        List<JsonNode> jsonNodes = generateJsonNodes(size , jsonTemplate);
+        List<JsonNode> jsonNodes = generateJsonNodes(size, jsonTemplate);
         List<String> serializedJsonNodes = new ArrayList<>(jsonNodes.size());
-        for(JsonNode jsonNode: jsonNodes) {
+        for (JsonNode jsonNode : jsonNodes) {
             serializedJsonNodes.add(objectMapper.writeValueAsString(jsonNode));
         }
         return serializedJsonNodes;

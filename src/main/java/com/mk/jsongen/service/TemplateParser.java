@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class ValueAccessorParser {
+public class TemplateParser {
 
     public static final Pattern pattern = Pattern.compile("\\{{2}(.*?}?)\\}{2}");
     public static final String TEMPLATE_VAL_ID = "#V#";
