@@ -1,5 +1,6 @@
 package com.mk.jsongen.facade;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mk.jsongen.service.BatchTemplateTransformer;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,11 @@ public class DocGeneratorFacade {
     BatchTemplateTransformer batchTemplateTransformer;
 
     @PostMapping("/generate")
-    public List<ObjectNode> generateFromTemplate(
+    public List<JsonNode> generateFromTemplate(
             @RequestParam(name = "size", defaultValue = "10") @Min(1) int size,
             @RequestBody @NotNull ObjectNode jsonTemplate) {
 
-        return batchTemplateTransformer.batchCreate(size, jsonTemplate);
+        return batchTemplateTransformer.batchGenerateFromCompiled(size, jsonTemplate);
     }
 
 }

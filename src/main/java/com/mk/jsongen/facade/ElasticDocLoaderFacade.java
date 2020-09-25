@@ -30,7 +30,7 @@ public class ElasticDocLoaderFacade {
     ElasticLoader elasticLoader;
 
     @PostMapping("/generate/to/elastic")
-    public Object generateFromTemplate(@RequestBody @Valid ElasticLoadRequest request) throws IOException {
+    public Object generateIntoElastic(@RequestBody @Valid ElasticLoadRequest request) throws IOException {
         List<String> generatedDocuments = batchTemplateTransformer.batchCreateSerialized(request.getDocCount(), request.getTemplate());
         return elasticLoader.loadIntoElastic(request, generatedDocuments);
     }
