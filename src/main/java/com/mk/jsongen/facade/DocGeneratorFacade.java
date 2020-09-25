@@ -26,7 +26,7 @@ public class DocGeneratorFacade {
             @RequestParam(name = "size", defaultValue = "10") @Min(1) int size,
             @RequestBody @NotNull ObjectNode jsonTemplate) {
 
-        return batchTemplateTransformer.batchGenerateFromCompiled(size, jsonTemplate);
+        return batchTemplateTransformer.generateJsonNodes(size, jsonTemplate);
     }
 
 }

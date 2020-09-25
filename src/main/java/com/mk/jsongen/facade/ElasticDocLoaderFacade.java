@@ -1,6 +1,5 @@
 package com.mk.jsongen.facade;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mk.jsongen.model.pojo.ElasticLoadRequest;
 import com.mk.jsongen.service.BatchTemplateTransformer;
 import com.mk.jsongen.service.ElasticLoader;
@@ -31,7 +30,7 @@ public class ElasticDocLoaderFacade {
 
     @PostMapping("/generate/to/elastic")
     public Object generateIntoElastic(@RequestBody @Valid ElasticLoadRequest request) throws IOException {
-        List<String> generatedDocuments = batchTemplateTransformer.batchCreateSerialized(request.getDocCount(), request.getTemplate());
+        List<String> generatedDocuments = batchTemplateTransformer.generateSerializedJsonNodes(request.getDocCount(), request.getTemplate());
         return elasticLoader.loadIntoElastic(request, generatedDocuments);
     }
 

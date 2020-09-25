@@ -8,15 +8,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
-import static com.mk.jsongen.model.pojo.accessor.DynamicValueAccessor.TEMPLATE_VAL_ID;
+import static com.mk.jsongen.service.ValueAccessorParser.TEMPLATE_VAL_ID;
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DynamicValueAccessorTest {
+public class TextDynamicValueAccessorTest {
 
     @Test
     public void accessValue_one_token_one_template() {
-        DynamicValueAccessor model = DynamicValueAccessor.builder()
+        TextDynamicValueAccessor model = TextDynamicValueAccessor.builder()
                 .expression("mon age est " + TEMPLATE_VAL_ID)
                 .generators(List.of(
                         IntGenerator.builder().min(50).max(50).build()
@@ -27,7 +27,7 @@ public class DynamicValueAccessorTest {
 
     @Test
     public void accessValue_two_tokens_one_template() {
-        DynamicValueAccessor model = DynamicValueAccessor.builder()
+        TextDynamicValueAccessor model = TextDynamicValueAccessor.builder()
                 .expression("mon age est de " + TEMPLATE_VAL_ID + " ans")
                 .generators(List.of(
                         IntGenerator.builder().min(50).max(50).build()
@@ -38,7 +38,7 @@ public class DynamicValueAccessorTest {
 
     @Test
     public void accessValue_two_templates() {
-        DynamicValueAccessor model = DynamicValueAccessor.builder()
+        TextDynamicValueAccessor model = TextDynamicValueAccessor.builder()
                 .expression(TEMPLATE_VAL_ID + TEMPLATE_VAL_ID)
                 .generators(List.of(
                         IntGenerator.builder().min(1).max(1).build(),
@@ -51,7 +51,7 @@ public class DynamicValueAccessorTest {
     @Test
     @Ignore // Need to find how to fix this
     public void accessValue_no_templates() {
-        DynamicValueAccessor model = DynamicValueAccessor.builder()
+        TextDynamicValueAccessor model = TextDynamicValueAccessor.builder()
                 .expression("halo")
                 .generators(List.of(
                         IntGenerator.builder().min(1).max(1).build(),
@@ -63,7 +63,7 @@ public class DynamicValueAccessorTest {
 
     @Test
     public void accessValue_two_tokens_three_templates() {
-        DynamicValueAccessor model = DynamicValueAccessor.builder()
+        TextDynamicValueAccessor model = TextDynamicValueAccessor.builder()
                 .expression(TEMPLATE_VAL_ID + " or " + TEMPLATE_VAL_ID + " to " + TEMPLATE_VAL_ID)
                 .generators(List.of(
                         IntGenerator.builder().min(25).max(25).build(),

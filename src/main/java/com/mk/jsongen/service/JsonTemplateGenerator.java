@@ -13,26 +13,7 @@ import org.springframework.stereotype.Service;
 public class JsonTemplateGenerator {
 
     @Autowired
-    TemplateParser templateParser;
-
-    @Autowired
     ValueAccessorParser valueAccessorParser;
-
-    private final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
-
-    public ObjectNode recurseGenerateFromTemplate(ObjectNode templateNode) {
-        ObjectNode nodeParsed = nodeFactory.objectNode();
-        templateNode.fields().forEachRemaining(entry -> {
-            if (entry.getValue().isValueNode()) {
-                ValueNode parsedValueNode = templateParser.parseValue((ValueNode) entry.getValue());
-                nodeParsed.set(entry.getKey(), parsedValueNode);
-            } else if (entry.getValue().isObject()) {
-                ObjectNode parsedObjectNode = this.recurseGenerateFromTemplate((ObjectNode) entry.getValue());
-                nodeParsed.set(entry.getKey(), parsedObjectNode);
-            }
-        });
-        return nodeParsed;
-    }
 
     public CompiledNodeContainer compileTemplate(ObjectNode templateNode) {
         CompiledNodeContainer rootContainer = CompiledNodeContainer.builder().build();

@@ -1,10 +1,12 @@
 package com.mk.jsongen.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mk.jsongen.generator.contract.IGenerator;
 import com.mk.jsongen.model.pojo.Function;
 import com.mk.jsongen.model.pojo.accessor.DynamicValueAccessor;
 import com.mk.jsongen.model.pojo.accessor.IValueAccessor;
 import com.mk.jsongen.model.pojo.accessor.StaticValueAccessor;
+import com.mk.jsongen.model.pojo.accessor.TextDynamicValueAccessor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -13,7 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.expression.Expression;
 
+import java.util.List;
+
 import static com.fasterxml.jackson.databind.node.JsonNodeFactory.instance;
+import static com.mk.jsongen.service.ValueAccessorParser.TEMPLATE_VAL_ID;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -30,9 +35,6 @@ public class ValueAccessorParserTest {
 
     @Mock
     FunctionExtractor functionExtractor;
-
-    @Mock
-    ObjectMapper objectMapper;
 
     @Test
     public void generateContext_no_template() {
@@ -56,17 +58,33 @@ public class ValueAccessorParserTest {
     }
 
     @Test
-    public void generateContext_dynamic() {
+    public void generateContext_dynamic_without_litteral() {
         Function mockedFunction = Function.builder().functionName("randInt").build();
         when(functionExtractor.extract(any())).thenReturn(mockedFunction);
-        when(generatorFactory.create(mockedFunction)).thenReturn(() -> 1);
-        Expression expression = mock(Expression.class);
-        when(expression.getExpressionString()).thenReturn("#{generator[0].generate()}");
-        IValueAccessor actual = model.generateContext(instance.textNode("{{  randInt()  }}"));
+        IGenerator mockedGenerator = () -> 1;
+        when(generatorFactory.create(mockedFunction)).thenReturn(mockedGenerator);
 
-        //assertTrue(actual instanceof DynamicValueAccessor);
-        //String actualExpression = ((DynamicValueAccessor) actual).getExpression().getExpressionString();
-        //assertEquals("#{generator[0].generate()}", actualExpression);
+        IValueAccessor expected = DynamicValueAccessor.builder().generator(mockedGenerator).build();
+        IValueAccessor actual = model.generateContext(instance.textNode(" {{randInt()}} "));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void generateContext_dynamic_with_litteral() {
+        Function mockedFunction = Function.builder().functionName("randInt").build();
+        when(functionExtractor.extract(any())).thenReturn(mockedFunction);
+        IGenerator mockedGenerator = () -> 1;
+        when(generatorFactory.create(mockedFunction)).thenReturn(mockedGenerator);
+
+        TextDynamicValueAccessor expected = TextDynamicValueAccessor.builder()
+                .generators(List.of(mockedGenerator, mockedGenerator))
+                .expression(TEMPLATE_VAL_ID + " and " + TEMPLATE_VAL_ID)
+                .build();
+        IValueAccessor actual = model.generateContext(instance.textNode("{{randInt()}} and {{randInt()}}"));
+
+        assertTrue(actual instanceof TextDynamicValueAccessor);
+        assertArrayEquals(expected.getTokens(), ((TextDynamicValueAccessor) actual).getTokens());
+        assertEquals(expected.accessValue(), actual.accessValue());
     }
 
     @Test
