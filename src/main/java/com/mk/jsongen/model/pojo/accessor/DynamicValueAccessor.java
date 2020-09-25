@@ -3,29 +3,35 @@ package com.mk.jsongen.model.pojo.accessor;
 import com.mk.jsongen.generator.contract.IGenerator;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.expression.EvaluationContext;
-import org.springframework.expression.Expression;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Data
 public class DynamicValueAccessor implements IValueAccessor {
 
-    private final String expression;
+    public static final String TEMPLATE_VAL_ID = "#V#";
+    public static final Pattern TEMPLATE_PATTERN = Pattern.compile(TEMPLATE_VAL_ID);
+
+    private final String[] tokens;
     private final List<IGenerator> generators;
 
     @Builder
     public DynamicValueAccessor(String expression, List<IGenerator> generators) {
-        this.expression = expression;
+        this.tokens = expression.split(TEMPLATE_VAL_ID, -1);
         this.generators = generators;
     }
 
     @Override
     public Object accessValue() {
-        String generatedExpression = expression;
-        for(IGenerator generator : generators) {
-            generatedExpression = generatedExpression.replaceFirst("#V#", generator.generate().toString());
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < tokens.length; i++) {
+            stringBuilder.append(tokens[i]);
+            if (generators.size() > i) {
+                stringBuilder.append(generators.get(i).generate().toString());
+            }
         }
-        return generatedExpression;
+        return stringBuilder.toString();
     }
 }
