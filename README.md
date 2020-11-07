@@ -1,8 +1,8 @@
 # Json-Generator
 
-A little Spring-Boot server I developped for generating thousands of json documents easily with a template language 
-Many of good projects already exists already but I want to improve mine with the features I want (and to practice my Angular 😁).
-A deployed version can be found here: https://json.iluv.tech 
+A little Spring-Boot server I developed for generating thousands of JSON documents easily with a template language.  
+Many of good projects already exist, but I want to improve mine with the features I want.  
+A deployed version can be found here: https://json.iluv.tech (the first API call can be slow because of heroku)  
 
 # Features
 - JSON Generation with a templating language
@@ -12,7 +12,9 @@ A deployed version can be found here: https://json.iluv.tech
 # Examples
 ##### A simple case with all functions 
 
-Request ```/generate?size=1```:
+Request  
+```/generate?size=1```  
+
 ```json
 {
     "id": "{{randInt()}}",
@@ -47,6 +49,49 @@ Response:
 ]
 ```
 
+##### Nesting Objects
+
+Request 
+```json
+{
+    "id": "{{randInt()}}",
+    "person": {
+        "firstName": "{{randFirstName()}}",
+        "lastName": "{{randLastName()}}"
+    }
+}
+```
+Response:
+```json
+[
+    {
+        "id": 1279076715,
+        "person": {
+            "firstName": "Bouie",
+            "lastName": "Meacham"
+        }
+    }
+]
+```
+
+
+
 ##### Using a JS Script
 
-In progress
+You can declare an anonymous function in a field with the following syntax:  
+Request 
+```json
+{
+    "js": "{{function() { return 'Hello world ' + 'In JS' }}}"
+}
+```
+Response:
+```json
+[
+    {
+        "js": "Hello world In JS"
+    }
+]
+```
+
+***Note***: this functionality use the GraalVM polyglot API, it is very slow for the moment.
