@@ -1,3 +1,5 @@
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/Lemick/json-generation.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Lemick/json-generation/context:java)
+
 # Json-Generator
 
 A little Spring-Boot server I developed for generating thousands of JSON documents easily with a template language.  
