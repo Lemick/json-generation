@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-public class DocGeneratorFacade {
+public class DocumentGeneratorFacade {
 
     @Autowired
     BatchTemplateTransformer batchTemplateTransformer;
