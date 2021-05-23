@@ -4,7 +4,7 @@
 
 A little Spring-Boot server I developed for generating thousands of JSON documents easily with a template language.  
 Many of good projects already exist, but I want to improve mine with the features I want.  
-A deployed version can be found here: https://json.iluv.tech (the first API call can be slow because of heroku)  
+A deployed version can be found here: https://json-gen.netlify.app (the first API call can be slow because of heroku)  
 
 # Features
 - JSON Generation with a templating language
