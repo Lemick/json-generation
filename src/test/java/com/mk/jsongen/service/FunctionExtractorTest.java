@@ -57,4 +57,11 @@ public class FunctionExtractorTest {
         Function expected = Function.builder().functionName("function").args(List.of()).body("{ print('Hello') }").build();
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void _extract_protected_args() {
+        Function actual = model.extract("function('[1,2,3]', '[1,3]') {}");
+        Function expected = Function.builder().functionName("function").args(List.of("[1,2,3]", "[1,3]")).body("{}").build();
+        assertEquals(expected, actual);
+    }
 }
