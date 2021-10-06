@@ -1,5 +1,6 @@
 package com.mk.jsongen.service;
 
+import com.mk.jsongen.model.pojo.DynamicList;
 import com.mk.jsongen.model.pojo.Function;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,49 +20,49 @@ public class FunctionExtractorTest {
     @Test
     public void _extract_with_whitespaces() {
         Function actual = model.extract(" randInt(4 ,5) ");
-        Function expected = Function.builder().functionName("randInt").args(List.of("4", "5")).body("").build();
+        Function expected = Function.builder().functionName("randInt").args(DynamicList.of(4, 5)).body("").build();
         assertEquals(expected, actual);
     }
 
     @Test
     public void _extract_no_args() {
         Function actual = model.extract("randInt()");
-        Function expected = Function.builder().functionName("randInt").args(List.of()).body("").build();
+        Function expected = Function.builder().functionName("randInt").args(DynamicList.of()).body("").build();
         assertEquals(expected, actual);
     }
 
     @Test
     public void _extract_no_parenthesis() {
         Function actual = model.extract("randInt");
-        Function expected = Function.builder().functionName("randInt").args(List.of()).body("").build();
+        Function expected = Function.builder().functionName("randInt").args(DynamicList.of()).body("").build();
         assertEquals(expected, actual);
     }
 
     @Test
     public void _extract_one_arg() {
         Function actual = model.extract("randInt(4)");
-        Function expected = Function.builder().functionName("randInt").args(List.of("4")).body("").build();
+        Function expected = Function.builder().functionName("randInt").args(DynamicList.of(4)).body("").build();
         assertEquals(expected, actual);
     }
 
     @Test
     public void _extract_body_empty() {
         Function actual = model.extract("function() {}");
-        Function expected = Function.builder().functionName("function").args(List.of()).body("{}").build();
+        Function expected = Function.builder().functionName("function").args(DynamicList.of()).body("{}").build();
         assertEquals(expected, actual);
     }
 
     @Test
     public void _extract_body() {
         Function actual = model.extract("function() { print('Hello') }");
-        Function expected = Function.builder().functionName("function").args(List.of()).body("{ print('Hello') }").build();
+        Function expected = Function.builder().functionName("function").args(DynamicList.of()).body("{ print('Hello') }").build();
         assertEquals(expected, actual);
     }
 
     @Test
     public void _extract_protected_args() {
         Function actual = model.extract("function('[1,2,3]', '[1,3]') {}");
-        Function expected = Function.builder().functionName("function").args(List.of("[1,2,3]", "[1,3]")).body("{}").build();
+        Function expected = Function.builder().functionName("function").args(DynamicList.of("[1,2,3]", "[1,3]")).body("{}").build();
         assertEquals(expected, actual);
     }
 }

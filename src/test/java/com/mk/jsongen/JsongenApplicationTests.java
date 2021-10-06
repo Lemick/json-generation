@@ -50,7 +50,7 @@ public class JsongenApplicationTests {
     @Test
     public void _generateFromTemplate_simple() {
         ObjectNode template = JsonNodeFactory.instance.objectNode()
-                .put("id", "{{randInt}}")
+                .put("id", "{{randInt(1, 10)}}")
                 .put("firstName", "{{randFirstName()}}")
                 .put("lastName", "{{randLastName()}}");
 

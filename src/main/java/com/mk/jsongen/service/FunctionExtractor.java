@@ -1,9 +1,11 @@
 package com.mk.jsongen.service;
 
+import com.mk.jsongen.model.pojo.DynamicList;
 import com.mk.jsongen.model.pojo.Function;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -35,21 +37,21 @@ public class FunctionExtractor {
         return "";
     }
 
-    private List<String> extractArgs(String functionExpression) {
+    private DynamicList extractArgs(String functionExpression) {
         Matcher argsMatcher = patternArgs.matcher(functionExpression);
+        List<String> args = new ArrayList<>();
         if (argsMatcher.find()) {
             String argsMatch = argsMatcher.group();
             String plainArgs = argsMatch.substring(1, argsMatch.length() - 1);
             if (!StringUtils.isEmpty(plainArgs)) {
-
                 if (plainArgs.contains("'")) {
-                    return extractProtectedArguments(plainArgs);
+                    args = extractProtectedArguments(plainArgs);
                 } else {
-                    return extractUnprotectedArguments(plainArgs);
+                    args = extractUnprotectedArguments(plainArgs);
                 }
             }
         }
-        return List.of();
+        return DynamicList.of(args);
     }
 
     private List<String> extractUnprotectedArguments(String plainArgs) {

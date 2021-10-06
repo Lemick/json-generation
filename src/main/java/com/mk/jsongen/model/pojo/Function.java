@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Function {
 
     private String functionName;
-    private List<String> args;
+    private DynamicList args;
     private String body;
 
     @Override

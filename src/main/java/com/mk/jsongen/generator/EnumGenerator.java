@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 public class EnumGenerator implements IGenerator {
 
-    List<String> values;
+    private List<Object> values;
 
     @Override
     public Object generate() {
