@@ -2,17 +2,17 @@
 
 # Json-Generator
 
-A little Spring-Boot server I developed for generating thousands of JSON documents easily with a template language.  
+A little Spring-boot server I developed to easily generate thousands of JSON documents with a template language.  
 Many of good projects already exist, but I want to improve mine with the features I want.  
-A deployed version can be found here: https://json-gen.netlify.app (the first API call can be slow because of heroku)  
+A deployed version can be found here: https://json-gen.netlify.app (the first API call can take ~20 seconds because of heroku awakening)  
 
 # Features
-- JSON Generation with a templating language
-- JS Support in templating (very slow for the moment because interpreted server-side)
-- API Endpoint for sending results to an ElasticSearch DB
+- JSON generation with a templating language
+- JS support in templates (very slow for the moment because interpreted server-side)
+- API endpoint for sending results to an ElasticSearch DB
 
 # Examples
-##### A simple case with all functions 
+##### A simple case with all the functions 
 
 Request  
 ```/generate?size=1```  
@@ -96,4 +96,4 @@ Response:
 ]
 ```
 
-***Note***: this functionality use the GraalVM polyglot API, it is very slow for the moment.
+***Note***: this functionality uses the GraalVM polyglot API, it is very slow for the moment.
